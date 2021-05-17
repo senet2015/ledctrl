@@ -24,12 +24,57 @@ const int resolution = 10; //Resolution 8, 10, 12, 15
 //int redPin = 19;
 //int greenPin = 23;
 //int bluePin = 18;
-void rBrightUp();
-void rBrightDown();
-void gBrightUp();
-void gBrightDown();
-void bBrightUp();
-void bBrightDown();
+/*
+void rBrightUp(int8_t t);
+void rBrightDown(int8_t t);
+void gBrightUp(int8_t t);
+void gBrightDown(int8_t t);
+void bBrightUp(int8_t t);
+void bBrightDown(int8_t t);
+*/
+
+void rBrightUp(int8_t t) {
+  for (int i = 0; i <= 1023; i++) {
+      ledcWrite(rChannel, rBrightness);
+      rBrightness = rBrightness + fadeAmount;
+      delay(t);
+  }
+}
+void rBrightDown(int8_t t) {
+  for (int i = 0; i <= 1023; i++) {
+      ledcWrite(rChannel, rBrightness);
+      rBrightness = rBrightness - fadeAmount;
+      delay(t);
+  }
+}
+void gBrightUp(int8_t t) {
+  for (int i = 0; i <= 1023; i++) {
+      ledcWrite(gChannel, gBrightness);
+      gBrightness = gBrightness + fadeAmount;
+      delay(t);
+  }
+}
+void gBrightDown(int8_t t) {
+  for (int i = 0; i <= 1023; i++) {
+      ledcWrite(gChannel, gBrightness);
+      gBrightness = gBrightness - fadeAmount;
+      delay(t);
+  }
+}
+void bBrightUp(int8_t t) {
+  for (int i = 0; i <= 1023; i++) {
+      ledcWrite(bChannel, bBrightness);
+      bBrightness = bBrightness + fadeAmount;
+      delay(t);
+  }
+}
+void bBrightDown(int8_t t) {
+  for (int i = 0; i <= 1023; i++) {
+      ledcWrite(bChannel, bBrightness);
+      bBrightness = bBrightness - fadeAmount;
+      delay(t);
+  }
+}
 
 void setup(){
   Serial.begin(115200);
@@ -53,6 +98,7 @@ void setup(){
 }
 
 void loop(){
+  int8_t interval = 5; //dimming interval is 5mS
 /*  
   //PWM Value varries from 0 to 1023  
   Serial.println("10 % PWM");
@@ -77,17 +123,17 @@ void loop(){
 */  
   //Continuous Fading
   Serial.println("Rainbow Color changing Started");
-  rBrightUp();
+  rBrightUp(interval);
   
   while(1)
   {
 
-    gBrightUp();
-    rBrightDown();
-    bBrightUp();
-    gBrightDown();
-    rBrightUp();
-    bBrightDown();
+    gBrightUp(interval);
+    rBrightDown(interval);
+    bBrightUp(interval);
+    gBrightDown(interval);
+    rBrightUp(interval);
+    bBrightDown(interval);
 
     // reverse the direction of the fading at the ends of the fade:
     //if (brightness <= 0 || brightness >= 1023) {
@@ -95,48 +141,5 @@ void loop(){
     //}
     // wait for 30 milliseconds to see the dimming effect
     //delay(5);
-  }
-}
-
-void rBrightUp() {
-  for (int i = 0; i <= 1023; i++) {
-      ledcWrite(rChannel, rBrightness);
-      rBrightness = rBrightness + fadeAmount;
-      delay(5);
-  }
-}
-void rBrightDown() {
-  for (int i = 0; i <= 1023; i++) {
-      ledcWrite(rChannel, rBrightness);
-      rBrightness = rBrightness - fadeAmount;
-      delay(5);
-  }
-}
-void gBrightUp() {
-  for (int i = 0; i <= 1023; i++) {
-      ledcWrite(gChannel, gBrightness);
-      gBrightness = gBrightness + fadeAmount;
-      delay(5);
-  }
-}
-void gBrightDown() {
-  for (int i = 0; i <= 1023; i++) {
-      ledcWrite(gChannel, gBrightness);
-      gBrightness = gBrightness - fadeAmount;
-      delay(5);
-  }
-}
-void bBrightUp() {
-  for (int i = 0; i <= 1023; i++) {
-      ledcWrite(bChannel, bBrightness);
-      bBrightness = bBrightness + fadeAmount;
-      delay(5);
-  }
-}
-void bBrightDown() {
-  for (int i = 0; i <= 1023; i++) {
-      ledcWrite(bChannel, bBrightness);
-      bBrightness = bBrightness - fadeAmount;
-      delay(5);
   }
 }
